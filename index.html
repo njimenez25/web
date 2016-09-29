@@ -1,17 +1,40 @@
-<!DOCTYPE html>
-<html lang="en-US">
+<!DOCTYPE HTML>
+<html manifest="">
 <head>
-    <title>Mi pagina :)</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8">
+
+    <title>Next Gen POS</title>
+
+    <script type="text/javascript" src="remote/init.php"></script>
+
+    <script type="text/javascript" src="resources/var/constant.js"></script>
+    <script type="text/javascript" src="resources/var/style.js"></script>
+
+    <!-- The line below must be kept intact for Sencha Cmd to build your application -->
+    <script id="microloader" type="text/javascript" src="bootstrap.js"></script>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <link rel="stylesheet" href="resources/css/loading.css">
+    <link rel="stylesheet" href="resources/css/app.css">
+    <link rel="stylesheet" href="resources/css/font-awesome.min.css">
+    <link rel="stylesheet" href="resources/css/override.css">
+    <link rel="stylesheet" href="resources/css/notification.css">
+    <link rel="stylesheet" href="resources/css/ux/ButtonSegment.css">
+
+    <script type="text/javascript" src="remote/direct-api.php"></script>
 </head>
 <body>
-    <svg height="200" width="200">
-        <circle cx="100" cy="100" r="60" stroke="#322F41" stroke-width="5" fill="#5C647A" />      
-    </svg>
-    <svg width="300" height="100">
-        <rect x="5" y="5" width="290" height="90" stroke="#617B69" stroke-width="5" fill="#96AD76" />
-    </svg>
-    <svg width="100" height="300">
-        <polygon points="5,5 65,5 95,195 35,195" stroke="#54523F" stroke-width="5" fill="#EBE3C5" />
-    </svg>
+<div id="initLoader">
+    <div>
+        <div class="bubblingG">
+            <span id="bubblingG_1"></span>
+            <span id="bubblingG_2"></span>
+            <span id="bubblingG_3"></span>
+            <div class="white bold standar tahoma">Initializing Application..</div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
