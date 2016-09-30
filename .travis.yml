@@ -1,0 +1,45 @@
+sudo: required
+
+language: node_js
+
+node_js:
+  - "node"
+
+services:
+  - docker
+
+env:
+  matrix:
+    - PHP_VERSION=php54 WC_VERSION=latest WP_VERSION=latest WP_MULTISITE=0
+    - PHP_VERSION=php55 WC_VERSION=latest WP_VERSION=latest WP_MULTISITE=0
+    - PHP_VERSION=php56 WC_VERSION=latest WP_VERSION=latest WP_MULTISITE=0
+    - PHP_VERSION=php70 WC_VERSION=latest WP_VERSION=latest WP_MULTISITE=0
+    - PHP_VERSION=php54 WC_VERSION=2.5.5 WP_VERSION=latest WP_MULTISITE=0
+    - PHP_VERSION=php55 WC_VERSION=2.5.5 WP_VERSION=latest WP_MULTISITE=0
+    - PHP_VERSION=php56 WC_VERSION=2.5.5 WP_VERSION=latest WP_MULTISITE=0
+    - PHP_VERSION=php70 WC_VERSION=2.5.5 WP_VERSION=latest WP_MULTISITE=0
+
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install docker-engine --no-install-recommends -y -o Dpkg::Options::="--force-confmiss" -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confnew"
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/1.8.0-rc2/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin/
+  - docker-compose -v
+  - docker -v
+
+install:
+  - npm install && node_modules/.bin/grunt build --force
+  - npm run start:${PHP_VERSION}
+
+before_script:
+  - sleep 60
+  - docker exec ${PHP_VERSION} wp core version --allow-root
+  - docker exec ${PHP_VERSION} wp plugin list --allow-root --status=active
+
+script:
+  - npm run unit-test:js
+  - if ["${PHP_VERSION}" == "php70"] && ["${WC_VERSION}" == "latest"]; then npm run integration-test:js ; fi
+  - npm run unit-test:${PHP_VERSION}
+  - npm run integration-test:${PHP_VERSION}
